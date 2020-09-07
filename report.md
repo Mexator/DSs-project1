@@ -37,3 +37,25 @@ we don't think that it is necessary to write what each one does.
 # Question 4. Create two Workers as well
 Screenshot of `docker-machine ls`:
 ![](q4.png)
+
+# Question 5. Deploy a true container cluster farm across many Dockerized virtual machines.
+
+To make this happen I did following:
+1. Ssh to master. 
+ - List IPs, choose one of them
+ - Issue `docker swarm init --advertise-addr 192.168.99.100`. This created a 
+ swarm with Mater node as a leader.
+ - Also that gave me an instruction of how to join workers.
+2. Ssh to worker 1.
+```
+docker swarm join --token [my-token] 192.168.99.100:2377
+``` 
+3. Ssh to worker 2.
+```
+docker swarm join --token [my-token] 192.168.99.100:2377
+``` 
+4. Ssh to master (again). 
+- `docker node ls`  
+ That showed that all nodes are connected and Master see workers.  
+
+![](q5.png)
