@@ -33,3 +33,7 @@ Master`
 - **Experiment with some docker-machine commands**  
 Yes, we did it. 😄 We tried almost whole list of available commands. However,
 we don't think that it is necessary to write what each one does.
+
+# Question 4. Create two Workers as well
+Screenshot of `docker-machine ls`:
+![](q4.png)
