@@ -9,8 +9,7 @@ Engine to almost any physical machine running any OS by wrapping it into a
 virtual machine.
 This tool allows quickly create cluster of Docker hosts.
 
-## Question 2. What is Docker Swarm, what is it used for and why is it 
-important in Containers Orchestration? 
+## Question 2. What is Docker Swarm, what is it used for and why is it important in Containers Orchestration? 
 `Docker Swarm` is a container orchestration tool. It allows the user to 
 manage multiple containers deployed across multiple host machines.
 In a `Docker Swarm`, there are typically several worker nodes and at least 
