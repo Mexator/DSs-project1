@@ -18,7 +18,7 @@ efficiently and ensuring that the cluster operates efficiently. `Docker
 Swarm` is important in Container Orchestration, because it can let us 
 efficiently manage our resources in our Distributed Systems.
 
-# Question 3. Install Docker-machine, create a machine, etc.
+## Question 3. Install Docker-machine, create a machine, etc.
 - **Docker Machine drivers**  
 In our operating systems we have VirtualBox and VmWare Workstation installed.
 However last one [is not supported](https://docs.docker.com/machine/drivers/) 
@@ -34,11 +34,11 @@ Master`
 Yes, we did it. 😄 We tried almost whole list of available commands. However,
 we don't think that it is necessary to write what each one does.
 
-# Question 4. Create two Workers as well
+## Question 4. Create two Workers as well
 Screenshot of `docker-machine ls`:
 ![](q4.png)
 
-# Question 5. Deploy a true container cluster farm across many Dockerized virtual machines.
+## Question 5. Deploy a true container cluster farm across many Dockerized virtual machines.
 
 To make this happen I did following:
 1. Ssh to master. 
@@ -59,3 +59,30 @@ docker swarm join --token [my-token] 192.168.99.100:2377
  That showed that all nodes are connected and Master see workers.  
 
 ![](q5.png)
+
+## Question 6. How to promote worker to manager?
+From the [Docker documentation](https://docs.docker.com/engine/swarm/admin_guide/):
+> You manage swarm membership with the docker swarm and 
+docker node subsystems.  
+
+After looking into `docker node --help` we discovered that 
+there are `promote` and `demote` parameters. They are used to
+turn a manager node to a worker and vice versa. 
+
+The requirements for promoting/demoting manager at the swarm 
+are the same as for every command that manages the swarm:
+There should be a _quorum_, i.e. majority of managers should 
+agree on management changes.  
+However, there are one more requirement - you can not demote 
+last manager of the swarm. And, of course, only manager can 
+promote/demote or somehow manage the swarm.
+
+Now let's promote `Worker1` to be a manager. To do this we 
+should execute `docker node promote Master`.  
+This can be done 
+by two ways: either connect to docker machine via ssh, and just 
+execute the command, or use `eval $(docker-machine env Master)`
+in your host console. The latter command will connect Docker 
+Engine running on administrator's machine to remote (or local)
+Docker machine.  
+![](q6.png)
