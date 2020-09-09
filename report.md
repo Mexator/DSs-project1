@@ -86,3 +86,41 @@ in your host console. The latter command will connect Docker
 Engine running on administrator's machine to remote (or local)
 Docker machine.  
 ![](q6.png)
+## Question 7. Deploy a simple Web page.
+For this task we created a simple Flask server. You can see 
+it at [`flask_app_task7`](flask_app_task7) folder. All it 
+does - shows a hostname inside `<h1>` tag on a main page. We tested 
+it locally, and now all we need to do - to run it on instances of 
+our swarm.
+
+First thing we need to do - push our image to any [Docker Registry](https://docs.docker.com/registry/)
+available
+from our swarm node. I chose DockerHub as a default choice for storing images.
+So, we run `docker-compose up -d` to build all the images, and once they 
+built we run `docker-compose push`. This will push all built images to their
+registry.
+
+Then, connected to the manager machine, we connected to manager node of 
+the swarm and issue `docker stack deploy --compose-file=docker-compose.yaml 
+server_1`. Obviously, we should have `docker-compose.yaml` at the directory
+where we issue this.
+
+That's it, we deployed a service to the swarm. However, there is only one 
+replica of the service. To fix this, we need to modify our `docker-compose.yaml`, and add there 
+```yaml
+version: '3'
+services:
+  web:
+    ...
+    deploy: 
+      replicas: 3
+```
+With that option, we will have 3 replicas of our `web` service. Now, we can 
+re-deploy the stack by `rm`-ing it and `deploy`-ing again.  
+Let's test it:  
+<img src='q7-1.png' width=150>
+<img src='q7-2.png' width=150>
+<img src='q7-3.png' width=160>
+
+As you can see, even queries to the same IP are processed at 
+different nodes of Docker-swarm.
