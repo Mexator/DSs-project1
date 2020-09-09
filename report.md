@@ -122,5 +122,18 @@ Let's test it:
 <img src='q7-2.png' width=150>
 <img src='q7-3.png' width=160>
 
-As you can see, even queries to the same IP are processed at 
-different nodes of Docker-swarm.
+As you can see, even queries to the same IP are processed at different nodes 
+of Docker-swarm.
+
+## Question 8. How to scale instances in the swarm?
+To add more instances to a swarm one can use `docker swarm join` command. This is done just in the same way as we joined workers.
+
+To run service on a newly added instances we can issue `docker service scale 
+[service]=[number of nodes]` command. This will add more replicas of service.
+By default, docker swarm equally distributes replicas across the swarm.   
+However, when new node joins the swarm, it does not receive new tasks. It
+is done in sake of saving consistent user experience. New tasks will be given
+to idle nodes.
+
+Autoscaling of swarm requires external tools, that will create docker-machines
+and join them to the swarm. This can not be done using only docker swarm.
