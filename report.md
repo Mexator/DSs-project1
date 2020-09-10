@@ -174,3 +174,57 @@ for every service we previously passed config to with volumes, and added there
 only `FROM` and `COPY` commands.  
 After this we imported some ready template to Graphana, and checked that everything works correctly by watching at the dashboard data.
 ![](q11.png)
+> Could it be just CLI or maybe GUI?  
+We didn't really understood this question, but there is no way for the 
+monitor not to be a distributed application. The reason is simple - someone
+should send metrics from containers and nodes to a monitor service.
+
+## Question 12. Out of Memory Exception.
+Out of Memory Exception has self-explanatory name. It occurs when the 
+application can not allocate memory for its needs. If such an exception occurs
+there is no way for program to perform the tasks. If a docker swarm node runs
+into a state with no memory left, first thing docker will do - kill container 
+that uses the most memory.  
+Ways to deal with it in practice:
+- Review service code for a memory leaks
+- Add more memory to host machines
+- Configure swarm to have a guaranteed memory share for a container. For 
+instance, docker-compose file has a reservations section that can be used to
+reserve memory.
+
+## Question 13. Deploy a docker container with at least 15% of CPU every second for memory efficiency.
+
+So the task is to deploy a one container that will be given only 15% of host's
+CPU reservation. So I decided to put a limit to our `web` service.
+Changing docker-compose:
+```yaml
+deploy: 
+  ...
+  resources:
+    limits:
+      cpus: '0.15'
+```
+This will set maximal usage of cpu per container to 15% of one processor.
+
+## Question 14.
+Output of `docker images`:
+![](q13.png)
+
+Let's analyze image of our `web` app with [dive](https://github.com/wagoodman/dive) tool.  
+The tool's estimated efficiency score is 98%. Pretty high, huh. However, let's
+try optimize it a little with replacing `ADD . .` with explicitly 
+specified files. Nope, this didn't helped. Image size decreased so slightly 
+that it is even hard to notice.  
+Second place for optimization is `RUN pip install ...` command. We can 
+disable cache with adding `--no-cache-dir` parameter. After build we see, 
+that we got rid of 1.5MB of data.
+Also we could choose smaller base image, but I did not found image smaller 
+than `python:3.8-alpine`.  
+There is an experimental feature `--squash` in docker build, but it requires 
+experimental mode for docker. We haven't succeed in enabling it. Instead we 
+decided to use pip package `docker-squash`. After processing with it, our 
+image become 100% optimized, according to `dive`. This is where we decided to 
+stop. Final image size is 51.5MB (-2.1 MB from starting point).
+It seems like the game not worth playing in our case... So much effort and 
+only 2MB reduced.
+

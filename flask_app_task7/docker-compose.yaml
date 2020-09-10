@@ -6,13 +6,17 @@ volumes:
 services:
   web:
     image: mexator/project1_pyapp
-    build: . 
+    build: .
+    hostname: '{{.Node.ID}}' 
     ports:
       - "80:5000"
     environment:
       FLASK_ENV: development
     deploy: 
       replicas: 3
+      resources:
+        limits:
+          cpus: '0.15'
 
   prometheus:
     image: mexator/project1_prom
@@ -33,6 +37,7 @@ services:
 
   cadvisor:
     image: gcr.io/google-containers/cadvisor:latest
+    hostname: '{{.Node.ID}}'
     volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:ro
@@ -58,6 +63,8 @@ services:
     restart: unless-stopped
     expose:
       - 9100
+    deploy:
+      mode: global
     labels:
       org.label-schema.group: "monitoring"
 
