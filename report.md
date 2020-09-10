@@ -118,10 +118,11 @@ services:
 With that option, we will have 3 replicas of our `web` service. Now, we can 
 re-deploy the stack by `rm`-ing it and `deploy`-ing again.  
 Let's test it:  
+<center>
 <img src='q7-1.png' width=150>
 <img src='q7-2.png' width=150>
 <img src='q7-3.png' width=160>
-
+</center>
 As you can see, even queries to the same IP are processed at different nodes 
 of Docker-swarm.
 
@@ -152,3 +153,12 @@ When dead node comes back, tasks [are not rebalanced](https://docs.docker.com/en
 Thus, we must run `docker service update server_1_web --force`. That will 
 rebalance tasks across the swarm, giving part of them to newly returned 
 Worker2.
+
+## Question 10. Perform some update in your application
+As a minor change, we decided to change color of a background. Previously it 
+was black, and now - purple. Replicating them is pretty easy. We should just
+rebuild images, with docker-compose, for example, then push changes to 
+registry and finally re-deploy our stack.  
+After some time, update will be propagated over all of the instances, and 
+we'll see nice-looking purple background on the web-pages.  
+<center><img src='q10.png' width=200></center>
