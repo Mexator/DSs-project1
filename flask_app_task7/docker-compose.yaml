@@ -15,7 +15,7 @@ services:
     deploy: 
       replicas: 3
       resources:
-        limits:
+        reservations:
           cpus: '0.15'
 
   prometheus:

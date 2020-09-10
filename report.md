@@ -194,14 +194,14 @@ reserve memory.
 
 ## Question 13. Deploy a docker container with at least 15% of CPU every second for memory efficiency.
 
-So the task is to deploy a one container that will be given only 15% of host's
-CPU reservation. So I decided to put a limit to our `web` service.
+So the task is to deploy a one container that will be given 15% of host's
+CPU reservation. So I decided to apply a reservation to our `web` service.
 Changing docker-compose:
 ```yaml
 deploy: 
   ...
   resources:
-    limits:
+    reservations:
       cpus: '0.15'
 ```
 This will set maximal usage of cpu per container to 15% of one processor.
