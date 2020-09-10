@@ -137,3 +137,13 @@ to idle nodes.
 
 Autoscaling of swarm requires external tools, that will create docker-machines
 and join them to the swarm. This can not be done using only docker swarm.
+
+## Question 9. Validate that when a node goes down a new instance is launched.
+Let's add more instances:
+```shell 
+docker service scale server_1_web=6
+```
+![](q9-1.png)
+Now, let's kill Worker2, wait a few seconds, and check:
+![](q9-2.png)
+After several seconds Docker detects failed node and launches new instances on stable ones. It works!
