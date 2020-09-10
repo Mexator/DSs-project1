@@ -162,3 +162,7 @@ registry and finally re-deploy our stack.
 After some time, update will be propagated over all of the instances, and 
 we'll see nice-looking purple background on the web-pages.  
 <center><img src='q10.png' width=200></center>
+
+## Question 11. Setup monitoring on the swarm.
+We decided to use [Prometheus](https://prometheus.io/) & [Grafana](https://grafana.com/),
+guided by [this article](https://dzone.com/articles/monitoring-docker-swarm).
