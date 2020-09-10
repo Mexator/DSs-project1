@@ -146,4 +146,9 @@ docker service scale server_1_web=6
 ![](q9-1.png)
 Now, let's kill Worker2, wait a few seconds, and check:
 ![](q9-2.png)
-After several seconds Docker detects failed node and launches new instances on stable ones. It works!
+After several seconds Docker detects failed node and launches new instances 
+on stable ones. It works!  
+When dead node comes back, tasks [are not rebalanced](https://docs.docker.com/engine/swarm/admin_guide/#force-the-swarm-to-rebalance).  
+Thus, we must run `docker service update server_1_web --force`. That will 
+rebalance tasks across the swarm, giving part of them to newly returned 
+Worker2.
