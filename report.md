@@ -242,8 +242,17 @@ only 2MB reduced.
 ## Question 15. Deploy a project
 After all that we done deploying project is easy. All we need is to change 
 docker-compose file, push images and run `docker stack deploy`.   
-And we done deploying on our local swarm. 
-
+And we done deploying on our local swarm.
+We decided to make load testing tool, and that's what we got:
+![](15_1.png)
+On the picture above you can see the starting page of our tool, written on Flask (yeah, it is very simple, but we are not designers).
+After choosing the parameters of the load testing and pressing the start button, you will be redirected to the info page:
+![](15_2.png)
+It will have some information about current load testing. It will be changing while load testing is in the process until it finished.
+And after some time, load testing is finished, and we can see the received data:
+![](15_3.png)
+It will be always available because all data is stored in the database.
+For more information you can go to our GitHub project, or ask us directly.
 # Conclusion
 This project was moderately useful for us as devOps'es. However, I think
 that `docker swarm` is became obsolete service after Kubernetes were 
