@@ -1,6 +1,17 @@
 # Report for Distributed Systems Project 1.
 Made by Anton Brisilin and Ruslan Israfilov
 
+# Introduction
+We decided to create service for load-testing of web services. The idea was 
+to use swarm of containers on different hosts to create a bid load of network
+traffic to a specified url or IP.  
+Because of relatively short term, lack of experience, and other workload wo 
+decided to make a first prototype to have all nodes independent. You can find
+the project [here](https://github.com/Cendien/Load-Test/). Repository with 
+report sources and intermediate answers to questions is available [there](https://github.com/Mexator/DSs-project1)
+
+# Questions
+
 ## Question 1. What is Docker-machine and what is it used for?
 
 `Docker-machine` is a tool that allow you to manage your remote servers and
@@ -228,3 +239,20 @@ stop. Final image size is 51.5MB (-2.1 MB from starting point).
 It seems like the game not worth playing in our case... So much effort and 
 only 2MB reduced.
 
+## Question 15. Deploy a project
+After all that we done deploying project is easy. All we need is to change 
+docker-compose file, push images and run `docker stack deploy`.   
+And we done deploying on our local swarm. 
+
+# Conclusion
+This project was moderately useful for us as devOps'es. However, I think
+that `docker swarm` is became obsolete service after Kubernetes were 
+developed. In production Kubernetes are used more widely than swarm.  
+Nevertheless, project was really interesting. Now we better understand 
+docker-compose and docker, know about docker-machine's and can write and 
+deploy our web services.  
+We faced difficulties that were mostly caused by our issues with understanding
+how docker works. For instance, when set up monitoring volumes with config 
+files did not properly distributed among swarm node. Frustrated with this 
+issue, we spent around 7 hours discovering it and finally solved by including 
+configs to the images of services with ADD in dockerfile.
